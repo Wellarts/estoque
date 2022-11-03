@@ -2,10 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fornecedor;
+use App\Models\State;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
 {
+
+    private $fornecedor;
+    private $State;
+
+    public function __construct(Fornecedor $fornecedor, State $State, City $City)
+    {
+            $this->fornecedor = $fornecedor;
+            $this->State= $State;
+            $this->City= $City;
+
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +30,8 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        // return view('fornecedores.create');
+     //   $fornecedores = $this->fornecedor->paginate(15);
+     //   return view('fornecedores.index', compact('fornecedores'));
     }
 
     /**
@@ -21,10 +39,13 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('fornecedores.create');
-    }
+    public function create(Fornecedor $fornecedor, State $State, City $City)
+		{
+
+			$State = $State->all(['id','name']);
+            $City = $City->all(['id','state_id','name']);
+			return view('fornecedores.create', compact(['fornecedor','State','City']));
+		}
 
     /**
      * Store a newly created resource in storage.
