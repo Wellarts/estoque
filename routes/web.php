@@ -13,13 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('ajax',function() {
+    return view('message');
+ });
+ Route::post('/getmsg','AjaxController@index');
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::resource('produtos', \App\Http\Controllers\ProdutoController::class);
 Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
 Route::resource('fornecedores', \App\Http\Controllers\FornecedorController::class);
-
+Route::get('cidades', 'App\Http\Controllers\Admin\FornecedorController@cidades')->name('cidades');
 
 Route::get('/', function () {
     return view('welcome');

@@ -6,18 +6,22 @@ use App\Models\Fornecedor;
 use App\Models\State;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FornecedorController extends Controller
 {
 
     private $fornecedor;
     private $State;
+    private $City;
+    private $request;
 
-    public function __construct(Fornecedor $fornecedor, State $State, City $City)
+    public function __construct(Fornecedor $fornecedor, State $State, City $City, Request $request)
     {
             $this->fornecedor = $fornecedor;
-            $this->State= $State;
-            $this->City= $City;
+            $this->State = $State;
+            $this->City = $City;
+            $this->Request = $request;
 
     }
 
@@ -39,12 +43,16 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Fornecedor $fornecedor, State $State, City $City)
+    public function create()
 		{
 
-			$State = $State->all(['id','name']);
-            $City = $City->all(['id','state_id','name']);
-			return view('fornecedores.create', compact(['fornecedor','State','City']));
+			$State = $this->State
+                ->orderBy('name', 'ASC')->get();
+            $City = $this->City
+                ->Where('id', '=', 0)
+                ->orderBy('name', 'ASC')->get();
+
+                return view('fornecedores.create', ['State' => $State, 'City' => $City]);
 		}
 
     /**
@@ -101,5 +109,18 @@ class FornecedorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cidades(Request $request)
+    {
+        dd($request);
+
+        $dataForm = $request->all();
+        $state_id = $dataForm['state_id'];
+        $sql = "Select id, name from cities";
+        $sql = $sql . " Where  state_id  = $state_id ";
+
+        $cities = DB::select($sql);
+        return view('fornecedores.cidade.ajax', ['cities' => $cities]);
     }
 }
