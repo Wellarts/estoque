@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
-<form name="personForm" id="personForm" class="form-horizontal" method="post" action=""
-    data-city-url="{{ route('cidades') }}">
+
+
+<form name="personForm" id="personForm" class="form-horizontal" method="post" action="">
     @csrf
     <div class="form-group form-group-sm">
         <label class="control-label col-sm-2" for="state_id">Estado:</label>
@@ -26,26 +27,19 @@
       </div>
     </div>
     <div>
-        <button class="btn btn-lg btn-success float-end">Salvar</button>
+        <button class="btn btn-lg btn-success float-end" type="submit">Salvar</button>
      </div>
 </form>
 
 <script>
-    function myFunction() {
-        var x = document.getElementById("state_id").value;
-        alert(x);
+   $(function(){
+        $('form[name="personForm"]').submit(function(event)){
+            event.preventDefault();
+           alert("teste");
+           $.ajax()
 
-        $.ajax({
-            url : "{{ route('cidades') }}",
-            data: {
-                'x': x,
-
-            },
-            success: function(data){
-                $("#state_id").html(data);
-            }
-        });
-   };
+        }
+   });
 </script>
 
 @endsection
