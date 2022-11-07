@@ -46,7 +46,9 @@ class FornecedorController extends Controller
     public function create()
 		{
 
+
 			$State = $this->State
+
                 ->orderBy('name', 'ASC')->get();
             $City = $this->City
                 ->Where('id', '=', 0)
