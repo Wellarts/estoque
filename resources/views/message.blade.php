@@ -5,31 +5,31 @@
       <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
       </script>
 
-      <script>
-         function getMessage() {
-            $.ajax({
-               type:'POST',
-               url:'/getmsg',
-               data:'_token = <?php echo csrf_token() ?>',
-               success:function(data) {
-                  $("#msg").html(data.msg);
-               }
-            });
-         }
-      </script>
+
    </head>
 
    <body>
-      <div id = 'msg'>This message will be replaced using Ajax.
-         Click the button to replace the message.</div>
-      <?php
-         echo Form::button('Replace Message',['onClick'=>'getMessage()']);
+      <div id = 'msg'>Teste de mensagem.</div>
 
-      ?>
-      <form action="{{}}">
+      <select class="form-control" name="city_id" id="city_id" onchange="getMessage()">
 
-
-      </form>
+          <option value="1">A</option>
+          <option value="2">B</option>
+      </select>
    </body>
+
+   <script>
+    function getMessage() {
+
+       $.ajax({
+         type:'POST',
+          url:'/getmsg',
+          data:'_token = <?php echo csrf_token() ?>',
+          success:function(data) {
+             $("#msg").html(data.msg);
+          }
+       });
+    }
+ </script>
 
 </html>
