@@ -1,3 +1,23 @@
 * MENSAGEM DE CONFIRMAÇÃO DE EXCLUSÃO
 * git
 * https://www.youtube.com/watch?v=ZkNy-65XzAI - IDEIA PARA ESTADO E CIDADES
+
+ $(function(){
+        $('form[name="personForm"]').submit(function(event){
+            event.preventDefault();
+
+           $.ajax({
+            url: "{{ route('cidades')}}",
+            type: "post",
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                alert($uf);
+            }
+
+
+           });
+
+        });
+   });

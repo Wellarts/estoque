@@ -115,14 +115,6 @@ class FornecedorController extends Controller
 
     public function cidades(Request $request)
     {
-        dd($request);
-
-        $dataForm = $request->all();
-        $state_id = $dataForm['state_id'];
-        $sql = "Select id, name from cities";
-        $sql = $sql . " Where  state_id  = $state_id ";
-
-        $cities = DB::select($sql);
-        return view('fornecedores.cidade.ajax', ['cities' => $cities]);
+        return response()->json( [$request->input('id')] );
     }
 }

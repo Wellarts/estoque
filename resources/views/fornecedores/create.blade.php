@@ -8,7 +8,7 @@
     <div class="form-group form-group-sm">
         <label class="control-label col-sm-2" for="state_id">Estado:</label>
       <div class="col-sm-8">
-            <select class="form-control" name="state_id" id="state_id" onchange="myFunction()">
+            <select class="form-control" name="state_id" id="state_id">
                 @foreach($State as $uf)
                 <option value="{{$uf->id}}">{{$uf->name}}</option>
             @endforeach
@@ -32,14 +32,13 @@
 </form>
 
 <script>
-   $(function(){
-        $('form[name="personForm"]').submit(function(event)){
-            event.preventDefault();
-           alert("teste");
-           $.ajax()
-
-        }
-   });
+     $('#state_id').ufs({
+          onChange: function(uf){
+              $('#city_id').cidades({uf: uf});
+          }
+      });
 </script>
+
+
 
 @endsection
