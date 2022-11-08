@@ -43,18 +43,13 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(State $state, City $City)
 		{
 
 
-			$State = $this->State
-
-                ->orderBy('name', 'ASC')->get();
-            $City = $this->City
-                ->Where('id', '=', 0)
-                ->orderBy('name', 'ASC')->get();
-
-                return view('fornecedores.create', ['State' => $State, 'City' => $City]);
+            $states = $state->all(['id', 'name']);
+            $cities = $City->all(['id', 'name']);
+			return view('fornecedores.create', compact(['states','cities']));
 		}
 
     /**
