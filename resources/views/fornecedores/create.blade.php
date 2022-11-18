@@ -18,7 +18,8 @@ data-grupos-url="{{ route('load_cidades') }}">
         <label class="label">Telefone</label>
         <input type="email" id="email" name="email" class="form-control" placeholder="Email" aria-label="email" aria-describedby="basic-addon1">
     </div>
-    <div class="form-group form-group-sm" class="my-3">
+    <div class="row">
+     <div class="form-group col-sm-4" >
         <div class="col-sm-8">
             <label for="floatingInputGrid">Estado</label>
                 <select class="form-select" name="idFkEstado" id="estado_id">
@@ -29,7 +30,7 @@ data-grupos-url="{{ route('load_cidades') }}">
                 </select>
         </div>
     </div>
-    <div class="form-group form-group-sm" class="my-3">
+    <div class="form-group col-sm-4 ">
         <div class="col-sm-8">
             <label for="Cidade">Cidade</label>
                 <select class="form-select" name="idFkCidade" id="cidade_id">
@@ -40,7 +41,7 @@ data-grupos-url="{{ route('load_cidades') }}">
                 </select>
             </div>
     </div>
-
+   </div>
     <div>
         <button class="btn btn-lg btn-success float-end">Salvar</button>
     </div>
