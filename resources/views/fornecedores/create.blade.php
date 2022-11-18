@@ -2,93 +2,77 @@
 
 @section('content')
 
-<form name="personForm" id="personForm" class="form-horizontal" method="post" action="">
+<form name="personForm" id="personForm" class="form-horizontal" method="post" action="{{ route('fornecedores.store') }}"
+data-grupos-url="{{ route('load_cidades') }}">
+@csrf
 
-<div class="row">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="name">Estado</label>
-            <select class="custom-select" placeholder="Estado" id="uf" name="uf" required>
-                @foreach ($states as $state)
-                    <option value="{{ $state->id }}" @selected(isset($setup) ? $setup->uf == $state->id : old('uf') == $state->id || $state->id == 16)>
-                        {{ $state->name }}
-                    </option>
+
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Nome</span>
+    <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome" aria-label="Nome" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Telefone</span>
+    <input type="text" id="telefone" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">email</span>
+    <input type="email" id="email" name="email" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+</div>
+
+    <div class="form-group form-group-sm">
+        <div class="col-sm-8">
+            <label for="floatingInputGrid">Estado</label>
+            <select class="form-select" name="estado_id" id="estado_id">
+                <option value="">Selecione</option>
+                @foreach($states as $state)
+                    <option value="{{$state->id}}">{{$state->name}}</option>
                 @endforeach
             </select>
         </div>
     </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="name">Cidade</label>
-            <select class="custom-select" placeholder="Cidade" id="cidade" name="cidade" required>
-
+    <div class="form-group form-group-sm">
+        <div class="col-sm-8">
+            <label for="Cidade">Cidade</label>
+            <select class="form-select" name="cidade_id" id="cidade_id">
+                <option value="">Selecione</option>
+                @foreach($cities as $city)
+                    <option value="{{$city->id}}">{{$city->name}}</option>
+                @endforeach
             </select>
         </div>
     </div>
-</div>
+
+    <div>
+        <button class="btn btn-lg btn-success float-end">Salvar</button>
+     </div>
 
 
 </form>
 
 <script type="text/javascript">
-    $(function() {
-        //Carrega todas as cidades
-        const cities = {!! $cities !!};
-
-        //Função quando o estado mudar
-        $('#uf').change(function() {
-            LoadCities($(this).val());
-            //alert('teste :'+cities);
-
-
+    $(document).ready(function(){
+        $("#estado_id").change(function(){
+            const url = $('#personForm').attr("data-grupos-url");
+            stateId = $(this).val();
+            $.ajax({
+                url : url,
+                data: {
+                    'estado_id': stateId,
+                },
+                success: function(data){
+                    $("#cidade_id").html(data);
+                }
+            });
         });
-        @isset($client)
 
-            //Execução inicial do script
-            LoadCities({{ $client->uf }}, {{ $client->cidade }});
 
-        @endisset
-        @empty($client)
-            LoadCities(16, 1565);
-        @endempty
 
-        //Função de carregar as cidades com base no id do estado, podendo receber o id da cidade
-        function LoadCities(id_state, id_city = null) {
-            //Filtra as cidades para o estado selecionado
-            const cities_of_state = cities.filter((city) => {
-                return city.state_id == id_state;
-            });
-            //Desabilita o select de cidades
-            $('#cidade').prop('readonly', true);
-            //Remove todos os <options> de cidades
-            $('#cidade').empty();
-
-            //Ordena em ordem alfabetica pelo nome da cidade
-            cities_of_state.sort(function(a, b) {
-
-                if (a.title < b.title) {
-                    return -1;
-                }
-                if (a.title > b.title) {
-                    return 1;
-                }
-                return 0;
-            });
-
-            //Faz o map para adicionar os <options>
-            cities_of_state.map((city) => {
-                if (city.id == id_city) selected = 'selected';
-
-                else selected = '';
-                $('#cidade').append("<option value='" + city.id + "' " + selected + ">" + city.name +"</option>");
-
-            });
-            //Reabilita o select de cidades
-            $('#cidade').prop('readonly', false);
-        }
     });
 
 
-</script>
-
+    </script>
 @endsection

@@ -25,8 +25,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('produtos', \App\Http\Controllers\ProdutoController::class);
 Route::resource('categorias', \App\Http\Controllers\CategoriaController::class);
 Route::resource('fornecedores', \App\Http\Controllers\FornecedorController::class);
-Route::post('cidades', '\App\Http\Controllers\FornecedorController@cidades')->name('cidades');
+
+//Route::get('/teste', 'App\Http\Controllers\Admin\TesteController@index')->name('teste');
+Route::get('load_cidades', 'App\Http\Controllers\FornecedorController@loadcidades')->name('load_cidades');
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });

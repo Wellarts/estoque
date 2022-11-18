@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('fornecedores', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('telefone');
+            $table->string('email');
             $table->foreignId('idFkEstado');
             $table->foreignId('idFkCidade');
-            $table->string('telefne');
-            $table->string('email');
             $table->timestamps();
         });
     }

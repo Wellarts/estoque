@@ -16,11 +16,11 @@ class FornecedorController extends Controller
     private $City;
     private $request;
 
-    public function __construct(Fornecedor $fornecedor, State $State, City $City, Request $request)
+    public function __construct(Fornecedor $fornecedor, State $states, City $cities, Request $request)
     {
             $this->fornecedor = $fornecedor;
-            $this->State = $State;
-            $this->City = $City;
+            $this->states = $states;
+            $this->cities = $cities;
             $this->Request = $request;
 
     }
@@ -43,13 +43,15 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(State $state, City $City)
+    public function create()
 		{
+            $states = $this->states
+                ->orderBy('name', 'ASC')->get();
+            $cities = $this->cities
+                ->Where('id', '=', 0)
+                ->orderBy('name', 'ASC')->get();
 
-
-            $states = $state->all(['id', 'name']);
-            $cities = $City->all(['id', 'name']);
-			return view('fornecedores.create', compact(['states','cities']));
+            return view('fornecedores.create', ['states' => $states, 'cities' => $cities]);
 		}
 
     /**
@@ -60,7 +62,22 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        try {
+                   $fornecedor = $this->fornecedor->create($data);
+                   flash('Fornecedor cadastrado com sucesso!')->success();
+                   return redirect()->route('fornecedores.index');
+
+             } catch (\Exception $e) {
+               $message = 'Erro ao cadastrar fornecedor!';
+
+       if(env('APP_DEBUG')) {
+       }
+          $message = $e->getMessage();
+       }
+           flash($message)->warning();
+           return redirect()->back();
     }
 
     /**
@@ -108,8 +125,15 @@ class FornecedorController extends Controller
         //
     }
 
-    public function cidades(Request $request)
+    public function loadcidades(Request $request)
     {
-        return response()->json( [$request->input('id')] );
+        $dataForm = $request->all();
+        $estado_id = $dataForm['estado_id'];
+        $sql = "Select id, name from cities";
+        $sql = $sql . " Where state_id  = '$estado_id'";
+
+        $cities = DB::select($sql);
+       // dd($cities);
+        return view('fornecedores.cidade_ajax', ['cities' => $cities]);
     }
 }
