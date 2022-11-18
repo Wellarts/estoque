@@ -63,11 +63,13 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        //dd($data);
 
         try {
                    $fornecedor = $this->fornecedor->create($data);
+
                    flash('Fornecedor cadastrado com sucesso!')->success();
-                   return redirect()->route('fornecedores.index');
+                   return redirect()->route('fornecedores.create');
 
              } catch (\Exception $e) {
                $message = 'Erro ao cadastrar fornecedor!';

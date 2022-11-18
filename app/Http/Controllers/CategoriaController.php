@@ -45,7 +45,7 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        dd($data);
+
 
          try {
                     $categoria = $this->categoria->create($data);
