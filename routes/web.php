@@ -33,3 +33,7 @@ Route::get('load_cidades', 'App\Http\Controllers\FornecedorController@loadcidade
 Route::get('/', function () {
     return view('home');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

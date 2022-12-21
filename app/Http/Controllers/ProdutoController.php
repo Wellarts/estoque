@@ -25,7 +25,9 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-
+        $produtos = $this->produto->paginate(15);
+       //dd($produtos);
+        return view('produtos.index', compact('produtos'));
 
 
     }
@@ -52,7 +54,7 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-  dd($data);
+       // dd($data);
          try {
                     $produto = $this->produto->create($data);
                     flash('Produto criada com sucesso!')->success();

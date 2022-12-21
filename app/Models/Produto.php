@@ -14,7 +14,7 @@ class Produto extends Model
         'idFkCategoria',
         'idFkFornecedor',
         'valorCompra',
-        'valorVenda'
+        'valorVenda',
 
    ];
 
